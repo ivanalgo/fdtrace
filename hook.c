@@ -5,11 +5,12 @@
 #include <dlfcn.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/uio.h>
 
 #include "hook.h"
 #include "fd_mgmt.h"
 	
-
+/* file operations */
 PRELOAD_LIBC_FUNC(
 	open,
 	PROTO(3, int, open, const char *, pathname, int, flags, mode_t, mode),
@@ -31,5 +32,17 @@ PRELOAD_LIBC_FUNC(
 PRELOAD_LIBC_FUNC(
 	write,
 	PROTO(3, ssize_t, write, int, fd, const void *, buf, size_t, count),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
+PRELOAD_LIBC_FUNC(
+	readv,	
+	PROTO(3, ssize_t, readv, int, fd, const struct iovec *, iov, int, iovcnt),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
+PRELOAD_LIBC_FUNC(
+	writev,
+	PROTO(3, ssize_t, writev, int, fd, const struct iovec *, iov, int, iovcnt),
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
