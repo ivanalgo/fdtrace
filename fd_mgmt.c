@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include "fd_mgmt.h"
 
@@ -16,88 +17,78 @@ enum fstat {
 struct fd_entry {
 	time_t access_time;
 	enum fstat fstat;
+	pthread_mutex_t lock;
 };
 
 #define MAX_NR_OPEN_FILES 2048
 
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 struct fd_entry fd_entry[MAX_NR_OPEN_FILES];
-
-
-static int find_empty_fd(int except);
-
-int mgmt_renew_empty_fd(int old_fd)
-{
-	int new_fd = 0;
-
-	pthread_mutex_lock(&lock);
-
-	if (fd_entry[old_fd].fstat == FSTAT_EMPTY) {
-		new_fd = old_fd;
-	} else {
-		new_fd = find_empty_fd(old_fd);	
-		dup2(old_fd, new_fd);
-	}
-
-	fd_entry[new_fd].fstat = FSTAT_USED;
-	fd_entry[new_fd].access_time = time(NULL);
-
-	pthread_mutex_unlock(&lock);
-
-	return new_fd;
-}
 
 void mgmt_create_fd(int fd)
 {
-	pthread_mutex_lock(&lock);
+	struct fd_entry *fde = &fd_entry[fd];
 
-	fd_entry[fd].fstat = FSTAT_USED;
-	fd_entry[fd].access_time = time(NULL);
+	pthread_mutex_lock(&fde->lock);
 
-	pthread_mutex_unlock(&lock);
+	fde->fstat = FSTAT_USED;
+	fde->access_time = time(NULL);
+
+	pthread_mutex_unlock(&fde->lock);
 }
 
 void mgmt_close_fd(int fd)
 {
-	pthread_mutex_lock(&lock);
+	struct fd_entry *fde = &fd_entry[fd];
 
-	if (fd_entry[fd].fstat != FSTAT_USED) {
+	pthread_mutex_lock(&fde->lock);
+
+	if (fde->fstat != FSTAT_USED) {
 		fprintf(stderr, "fd %d is in %d stated\n",
-			fd, fd_entry[fd].fstat);
+			fd, fde->fstat);
 		abort();
 	}
 
-	fd_entry[fd].fstat = FSTAT_CLOSED;
+	fde->fstat = FSTAT_CLOSED;
 
-	pthread_mutex_unlock(&lock);
+	pthread_mutex_unlock(&fde->lock);
 }
 
 void mgmt_access_fd(int fd)
 {
-	pthread_mutex_lock(&lock);
+	struct fd_entry *fde = &fd_entry[fd];
 
-	if (fd_entry[fd].fstat != FSTAT_USED) {
+	pthread_mutex_lock(&fde->lock);
+
+	if (fde->fstat != FSTAT_USED) {
 		fprintf(stderr, "fd %d is not in used state\n",
 			fd);
 		abort();
 	}
 	
-	fd_entry[fd].access_time = time(NULL);
+	fde->access_time = time(NULL);
 
-	pthread_mutex_unlock(&lock);
+	pthread_mutex_unlock(&fde->lock);
 }
 
-static int find_empty_fd(int except)
+int (*__read)(int fd, char *buf, size_t len);
+static void init_all_fds() __attribute__((constructor));
+static void init_all_fds()
 {
-	int fd;
+	int i;
+	struct fd_entry *fde;	
 
-	for (fd = 0; fd < MAX_NR_OPEN_FILES; ++fd) {
-		if (fd == except)
-			continue;
+	for (i = 0, fde = &fd_entry[0]; i < MAX_NR_OPEN_FILES; ++i, ++fde) {
+		/*
+		 * test whether this @i fd is opend before.
+		 * such as opend by ld, or aready opened before execve
+		 */
+		if (__read(i, NULL, 0) == -1 && errno == EBADF) {
+			fde->fstat = FSTAT_EMPTY;
+		} else {
+			fde->fstat = FSTAT_USED;
+		}
 
-		if (fd_entry[fd].fstat == FSTAT_EMPTY)
-			return fd;
+		pthread_mutex_init(&fde->lock, NULL);
+		fde->access_time = 0;
 	}
-
-	return -1;
 }
