@@ -6,42 +6,30 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#include "hook.h"
 #include "fd_mgmt.h"
+	
 
-extern int open(const char *pathname, int flags, mode_t mode);
-extern int close(int fd);
-extern ssize_t read(int fd, void *buf, size_t count);
+PRELOAD_LIBC_FUNC(
+	open,
+	PROTO(3, int, open, const char *, pathname, int, flags, mode_t, mode),
+	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
+)
 
-int (*__open)(const char *pathname, int flags, mode_t mode) = NULL;
-int (*__close)(int fd);
-ssize_t (*__read)(int fd, void *buf, size_t count);
+PRELOAD_LIBC_FUNC(
+	close,
+	PROTO(1, int, close, int, fd),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_CLOSE(fd))
+)
 
-int open(const char *pathname, int flags, mode_t mode)
-{
-	int fd;
+PRELOAD_LIBC_FUNC(
+	read,
+	PROTO(3, ssize_t, read, int, fd, void *, buf, size_t, count),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
 
-	fd = __open(pathname, flags, mode);
-
-	return mgmt_renew_empty_fd(fd);
-}
-
-int close(int fd)
-{
-	mgmt_close_fd(fd);
-	return __close(fd);
-}
-
-ssize_t read(int fd, void *buf, size_t count)
-{
-	mgmt_access_fd(fd);
-	return __read(fd, buf, count);
-}
-
-void fdcheck_init(void) __attribute__((constructor));
-
-void fdcheck_init(void)
-{
-	__open = dlsym(RTLD_NEXT, "open");
-	__close = dlsym(RTLD_NEXT, "close");
-	__read  = dlsym(RTLD_NEXT, "read");
-}
+PRELOAD_LIBC_FUNC(
+	write,
+	PROTO(3, ssize_t, write, int, fd, const void *, buf, size_t, count),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)

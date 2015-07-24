@@ -47,6 +47,16 @@ int mgmt_renew_empty_fd(int old_fd)
 	return new_fd;
 }
 
+void mgmt_create_fd(int fd)
+{
+	pthread_mutex_lock(&lock);
+
+	fd_entry[fd].fstat = FSTAT_USED;
+	fd_entry[fd].access_time = time(NULL);
+
+	pthread_mutex_unlock(&lock);
+}
+
 void mgmt_close_fd(int fd)
 {
 	pthread_mutex_lock(&lock);
