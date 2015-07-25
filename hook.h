@@ -4,12 +4,14 @@
 #define PARAM_1(type1, arg1) 		type1 arg1
 #define PARAM_2(type2, arg2, ...)	type2 arg2, PARAM_1(__VA_ARGS__)
 #define PARAM_3(type3, arg3, ...)	type3 arg3, PARAM_2(__VA_ARGS__)
+#define PARAM_4(type4, arg4, ...)	type4 arg4, PARAM_3(__VA_ARGS__)
 
 #define PARAM(num, ...)			PARAM_##num(__VA_ARGS__)
 
 #define ARGS_1(type1, arg1)		arg1
 #define ARGS_2(type2, arg2, ...)	arg2, ARGS_1(__VA_ARGS__)
 #define ARGS_3(type3, arg3, ...)	arg3, ARGS_2(__VA_ARGS__)
+#define ARGS_4(type4, arg4, ...)	arg4, ARGS_3(__VA_ARGS__)
 
 #define ARGS(num, ...)			ARGS_##num(__VA_ARGS__)
 
@@ -28,8 +30,7 @@
 		return retval;							
 
 
-#define TYPE(num, rtype, name, ...)						\
-	rtype (*)(PARAM(num, __VA_ARGS__))
+#define TYPE(num, rtype, name, ...)	rtype (*)(PARAM(num, __VA_ARGS__))
 
 #define ACTION_NULL
 #define ACTION_CREATE(fd)	mgmt_create_fd(fd)	

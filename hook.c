@@ -46,3 +46,21 @@ PRELOAD_LIBC_FUNC(
 	PROTO(3, ssize_t, writev, int, fd, const struct iovec *, iov, int, iovcnt),
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
+
+PRELOAD_LIBC_FUNC(
+	pread,
+	PROTO(4, ssize_t, pread, int, fd, void *, buf, size_t, count, off_t, offset),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
+PRELOAD_LIBC_FUNC(
+	pwrite,
+	PROTO(4, ssize_t, pwrite, int, fd, const void *, buf, size_t, count, off_t, offset),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
+PRELOAD_LIBC_FUNC(
+	lseek,
+	PROTO(3, off_t, lseek, int, fd, off_t, offset, int, whence),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
