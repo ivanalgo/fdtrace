@@ -15,8 +15,9 @@
 
 #define ARGS(num, ...)			ARGS_##num(__VA_ARGS__)
 
-#define PROTO(args...)	args
+#define PROTO(args...)	 args
 #define WRAPPER(args...) args
+#define FAILURE(args...) args
 
 #define CALL_EXP(num, rtype, name, ...)						\
 	__##name(ARGS(num, __VA_ARGS__))
@@ -31,18 +32,18 @@
 
 
 #define TYPE(num, rtype, name, ...)	rtype (*)(PARAM(num, __VA_ARGS__))
+#define RTYPE(num, rtype, name, ...)	rtype
 
 #define ACTION_NULL
 #define ACTION_CREATE(fd)	mgmt_create_fd(fd)	
-
 #define ACTION_ACCESS(fd)	mgmt_access_fd(fd)
-
 #define ACTION_CLOSE(fd)	mgmt_close_fd(fd)
+#define ACTION_COMP(act1, act2)	act1;act2
 
 #define BEFOR(prev, next) prev
 #define AFTER(prev, next) next
 
-#define PRELOAD_LIBC_FUNC(name, proto, wrapper)					\
+#define PRELOAD_LIBC_FUNC(name, proto, failure, wrapper)			\
 	typeof(TYPE(proto)) __##name = NULL;					\
 										\
 	static void probe_##name##_real_func(void) __attribute__((constructor));\
@@ -53,10 +54,12 @@
 										\
 	DEFINE(proto)								\
 	{									\
-		int _return;							\
+		RTYPE(proto) _return;						\
 										\
 		BEFOR(wrapper);							\
 		CALL(_return, proto);						\
+		if (failure)							\
+			return _return;						\
 		AFTER(wrapper);							\
 		return _return;							\
 	}

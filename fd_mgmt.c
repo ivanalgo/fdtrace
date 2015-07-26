@@ -21,6 +21,7 @@ struct fd_entry {
 };
 
 #define MAX_NR_OPEN_FILES 2048
+#define debug_log(fd)	printf("[pid %d] %s(%d)\n", getpid(), __FUNCTION__, fd)
 
 struct fd_entry fd_entry[MAX_NR_OPEN_FILES];
 
@@ -30,6 +31,7 @@ void mgmt_create_fd(int fd)
 
 	pthread_mutex_lock(&fde->lock);
 
+	debug_log(fd);
 	fde->fstat = FSTAT_USED;
 	fde->access_time = time(NULL);
 
@@ -42,9 +44,10 @@ void mgmt_close_fd(int fd)
 
 	pthread_mutex_lock(&fde->lock);
 
+	debug_log(fd);
 	if (fde->fstat != FSTAT_USED) {
-		fprintf(stderr, "fd %d is in %d stated\n",
-			fd, fde->fstat);
+		fprintf(stderr, "[pid %d] fd %d is in %d stated\n",
+			getpid(), fd, fde->fstat);
 		abort();
 	}
 
@@ -59,9 +62,10 @@ void mgmt_access_fd(int fd)
 
 	pthread_mutex_lock(&fde->lock);
 
+	debug_log(fd);
 	if (fde->fstat != FSTAT_USED) {
-		fprintf(stderr, "fd %d is not in used state\n",
-			fd);
+		fprintf(stderr, "[pid %d] fd %d is in %d state(not used)\n",
+			getpid(), fd, fde->fstat);
 		abort();
 	}
 	
@@ -86,6 +90,7 @@ static void init_all_fds()
 			fde->fstat = FSTAT_EMPTY;
 		} else {
 			fde->fstat = FSTAT_USED;
+			printf("[pid %d] fd %d is opened\n", getpid(), i);
 		}
 
 		pthread_mutex_init(&fde->lock, NULL);
