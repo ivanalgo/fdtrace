@@ -44,6 +44,12 @@ const char *type2fmt(const char *type)
 	if (strcmp(type, "char *") == 0) return "\"%s\"";
 	if (strcmp(type, "const char *") == 0) return "\"%s\"";
 	if (strcmp(type, "mode_t") == 0) return "0%03o";
+	if (strcmp(type, "void *") == 0) return "%p";
+	/* FIXME size_t and ssize_t is different in 32 and 64 bit systems ??? */
+	if (strcmp(type, "size_t") == 0) return "%u";
+	if (strcmp(type, "ssize_t") == 0) return "%d"; 
+
+	if (strcmp(type, "FILE *") == 0) return "%p";
 
 	return strcat(buf, type);
 }
