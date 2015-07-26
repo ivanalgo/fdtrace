@@ -81,6 +81,36 @@ PRELOAD_LIBC_FUNC(
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
 
+/* temp file operations */
+
+PRELOAD_LIBC_FUNC(
+	mkstemp,
+	PROTO(1, int, mkstemp, char *, template),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
+)
+
+PRELOAD_LIBC_FUNC(
+	mkostemp,
+	PROTO(2, int, mkostemp, char *, template, int, flags),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
+)
+	
+PRELOAD_LIBC_FUNC(
+	mkstemps,
+	PROTO(2, int, mkstemps, char *, template, int, suffixlen),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
+)
+
+PRELOAD_LIBC_FUNC(
+	mkostemps,
+	PROTO(3, int, mkostemps, char *, template, int, suffixlen, int, flags),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
+)
+
 /* C standard file operations */
 PRELOAD_LIBC_FUNC(
 	fopen,

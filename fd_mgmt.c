@@ -46,7 +46,7 @@ void mgmt_close_fd(int fd)
 
 	debug_log(fd);
 	if (fde->fstat != FSTAT_USED) {
-		fprintf(stderr, "[pid %d] fd %d is in %d stated\n",
+		printf("[pid %d] fd %d is in %d stated\n",
 			getpid(), fd, fde->fstat);
 		abort();
 	}
@@ -64,7 +64,7 @@ void mgmt_access_fd(int fd)
 
 	debug_log(fd);
 	if (fde->fstat != FSTAT_USED) {
-		fprintf(stderr, "[pid %d] fd %d is in %d state(not used)\n",
+		printf("[pid %d] fd %d is in %d state(not used)\n",
 			getpid(), fd, fde->fstat);
 		abort();
 	}
