@@ -1,6 +1,10 @@
 #ifndef _HOOK_H
 #define _HOOK_H
 
+#include <string.h>
+#include <stdarg.h>
+#include <assert.h>
+
 #define PARAM_1(type1, arg1) 		type1 arg1
 #define PARAM_2(type2, arg2, ...)	type2 arg2, PARAM_1(__VA_ARGS__)
 #define PARAM_3(type3, arg3, ...)	type3 arg3, PARAM_2(__VA_ARGS__)
@@ -30,6 +34,75 @@
 	if (retval < 0)								\
 		return retval;							
 
+const char *type2fmt(const char *type)
+{
+	char buf[64] = "Error type ";
+
+	if (strcmp(type, "int") == 0) return "%d";
+	if (strcmp(type, "long") == 0) return "%l";
+	if (strcmp(type, "char") == 0) return "%c";
+	if (strcmp(type, "char *") == 0) return "\"%s\"";
+	if (strcmp(type, "const char *") == 0) return "\"%s\"";
+	if (strcmp(type, "mode_t") == 0) return "0%03o";
+
+	return strcat(buf, type);
+}
+
+const char *generate_print_fmt(char *buf, const char *func, int num, ...)
+{
+	va_list ap;
+	const char *rtype = NULL;
+	const char *type = NULL;
+
+	assert(num >= 1);
+
+	strcat(buf, func);
+	strcat(buf, " (");
+
+	va_start(ap, num);			
+	rtype = va_arg(ap, const char *);
+	num--;
+	
+	while (num > 0) {
+		type = va_arg(ap, const char *);
+		strcat(buf, type2fmt(type));
+		if (num > 1)
+			strcat(buf, ", ");
+
+		num--;
+	}
+
+	strcat(buf, ") = ");
+	strcat(buf, type2fmt(rtype));
+	strcat(buf, "\n");
+
+	return buf;
+}
+
+#define TYPES_STR_1(type1, val1)	#type1
+#define TYPES_STR_2(type2, val2, ...)	#type2, TYPES_STR_1(__VA_ARGS__)
+#define TYPES_STR_3(type3, val3, ...)	#type3, TYPES_STR_2(__VA_ARGS__)
+#define TYPES_STR_4(type4, val4, ...)	#type4, TYPES_STR_3(__VA_ARGS__)
+
+#define TYPES_STR(num, ...)	TYPES_STR_##num(__VA_ARGS__)
+
+#define PRINT_FMT(buf, retval, num, rtype, name, ...)				\
+	generate_print_fmt(buf, #name, num + 1, TYPES_STR(1, rtype, 0), TYPES_STR(num, __VA_ARGS__))
+
+#define PRINT_ARGS_1(type1, val1)	val1
+#define PRINT_ARGS_2(type2, val2, ...)	val2, PRINT_ARGS_1(__VA_ARGS__)
+#define PRINT_ARGS_3(type3, val3, ...)	val3, PRINT_ARGS_2(__VA_ARGS__)
+#define PRINT_ARGS_4(type4, val4, ...)	val4, PRINT_ARGS_3(__VA_ARGS__)
+#define PRINT_ARGS(retval, num, rtype, name, ...)				\
+	PRINT_ARGS_##num(__VA_ARGS__), retval	
+
+#define TRACE_LOG(retval, num, rtype, name, ...)				\
+	{									\
+		char buf[256] = "";						\
+		printf(PRINT_FMT(buf, retval, num, rtype, name, __VA_ARGS__),	\
+	   	       PRINT_ARGS(retval, num, rtype, name, __VA_ARGS__));	\
+	}
+
 
 #define TYPE(num, rtype, name, ...)	rtype (*)(PARAM(num, __VA_ARGS__))
 #define RTYPE(num, rtype, name, ...)	rtype
@@ -58,6 +131,7 @@
 										\
 		BEFOR(wrapper);							\
 		CALL(_return, proto);						\
+		TRACE_LOG(_return, proto);					\
 		if (failure)							\
 			return _return;						\
 		AFTER(wrapper);							\
