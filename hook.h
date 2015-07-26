@@ -63,7 +63,7 @@ const char *generate_print_fmt(char *buf, const char *func, int num, ...)
 	assert(num >= 1);
 
 	strcat(buf, func);
-	strcat(buf, " (");
+	strcat(buf, "(");
 
 	va_start(ap, num);			
 	rtype = va_arg(ap, const char *);

@@ -126,3 +126,23 @@ PRELOAD_LIBC_FUNC(
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_CREATE(pipefd[0]), ACTION_CREATE(pipefd[1])))
 )
+
+/* specisal case: vfork, must be replace by fork 
+ * child process spwaned by vfork can't modified the global data
+ * because the parent and child shared the same data.
+ * In generate child can close some fd before execve to a new image,
+ * but in our approche, the close function will modify the fd_entry table.
+ * So we need to replace vfork with fork, to avoid child modifying data 
+ * which can be seen by parent.
+ */
+pid_t (*__fork) () = NULL;
+static void probe_fork_real_func() __attribute__((constructor));
+static void probe_fork_real_func()
+{
+	__fork = dlsym(RTLD_NEXT, "fork");
+}
+
+pid_t vfork()
+{
+	return __fork();
+}
