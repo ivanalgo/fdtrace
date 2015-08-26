@@ -162,13 +162,11 @@ static void probe_debug(void)
 	if (val)
 		loglevel = atoi(val);
 
-	printf("__fopen = %p\n", __fopen);
 	if (debugfile && (fp = __fopen(debugfile, "a")) == NULL) {
 		fprintf(stderr, "Open file %s error, errno = %d %m\n",
 				debugfile, errno);
 		exit(1);
 	}
 
-	printf("settup file %s\n", debugfile);
 	debugfp = fp;
 }

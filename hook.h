@@ -94,8 +94,8 @@ typedef FILE * filp_t;
 typedef int *  pair_fd_t;
 
 #define TYPE_FMT_int	"%d"
-#define TYPE_FMT_string_t "%s"
-#define TYPE_FMT_const_string_t "%s"
+#define TYPE_FMT_string_t "\"%s\""
+#define TYPE_FMT_const_string_t "\"%s\""
 #define TYPE_FMT_mode_t "0%03o"
 #define TYPE_FMT_const_addr_t "%p"
 #define TYPE_FMT_addr_t "%p"
