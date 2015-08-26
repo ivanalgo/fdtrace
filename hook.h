@@ -99,9 +99,9 @@ typedef int *  pair_fd_t;
 #define TYPE_FMT_mode_t "0%03o"
 #define TYPE_FMT_const_addr_t "%p"
 #define TYPE_FMT_addr_t "%p"
-#define TYPE_FMT_size_t "%u"
-#define TYPE_FMT_ssize_t "%d"
-#define TYPE_FMT_off_t "%u"
+#define TYPE_FMT_size_t "%lu"
+#define TYPE_FMT_ssize_t "%ld"
+#define TYPE_FMT_off_t "%ld"
 #define TYPE_FMT_filp_t "%p"
 #define TYPE_FMT_pair_fd_t "[%d, %d]"
 #define TYPE_FMT_iovec_t "%p"
@@ -113,7 +113,7 @@ typedef int *  pair_fd_t;
 
 #define TYPES_STR(num, ...)	TYPES_STR_##num(__VA_ARGS__)
 
-#define PRINT_FMT(buf, retval, num, rtype, name, ...)				\
+#define PRINT_FMT(retval, num, rtype, name, ...)				\
 	"%s (" TYPES_STR(num, __VA_ARGS__) ") = " TYPES_STR(1, rtype, retval) "\n"
 	//generate_print_fmt(buf, #name, num + 1, TYPES_STR(1, rtype, 0), TYPES_STR(num, __VA_ARGS__))
 
@@ -124,7 +124,7 @@ typedef int *  pair_fd_t;
 #define TYPE_ARG_const_addr_t(val)	val
 #define TYPE_ARG_addr_t(val)		val
 #define TYPE_ARG_size_t(val)		val
-#define TYPE_ARG_soff_t(val)		val
+#define TYPE_ARG_off_t(val)		val
 #define TYPE_ARG_filp_t(val)		val
 #define TYPE_ARG_pair_fd_t(val)		val[0], val[1]
 #define TYPE_ARG_iovec_t(val)		val
@@ -145,8 +145,7 @@ extern FILE *debugfp;
 #define TRACE_LOG(retval, num, rtype, name, ...)				\
 	{									\
 		if (loglevel > 0) {						\
-			char buf[256] = "";						\
-			fprintf(debugfp, PRINT_FMT(buf, retval, num, rtype, name, __VA_ARGS__),	\
+			fprintf(debugfp, PRINT_FMT(retval, num, rtype, name, __VA_ARGS__),	\
 			       PRINT_ARGS(retval, num, rtype, name, __VA_ARGS__));	\
 		}								\
 	}
@@ -167,7 +166,8 @@ extern FILE *debugfp;
 #define PRELOAD_LIBC_FUNC(name, proto, failure, wrapper)			\
 	typeof(TYPE(proto)) __##name = NULL;					\
 										\
-	static void probe_##name##_real_func(void) __attribute__((constructor(199)));\
+	static void probe_##name##_real_func(void)				\
+			 __attribute__((constructor(199)));			\
 	static void probe_##name##_real_func(void)				\
 	{									\
 		__##name = dlsym(RTLD_NEXT, #name);				\
