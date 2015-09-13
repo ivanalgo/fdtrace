@@ -30,7 +30,7 @@ PRELOAD_LIBC_FUNC(
 	close,
 	PROTO(1, int, close, int, fd),
 	FAILURE(_return < 0),
-	WRAPPER(ACTION_ACCESS(fd), ACTION_CLOSE(fd))
+	WRAPPER(ACTION_NULL, ACTION_CLOSE(fd))
 )
 
 PRELOAD_LIBC_FUNC(
