@@ -112,6 +112,28 @@ PRELOAD_LIBC_FUNC(
 	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
 )
 
+/* duplication file operations */
+PRELOAD_LIBC_FUNC(
+	dup,
+	PROTO(1, int, dup, int, oldfd),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_ACCESS(oldfd), ACTION_CREATE(_return)))
+)
+
+PRELOAD_LIBC_FUNC(
+	dup2,
+	PROTO(2, int, dup2, int, oldfd, int, newfd),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_ACCESS(oldfd), ACTION_CREATE(newfd)))
+)
+
+PRELOAD_LIBC_FUNC(
+	dup3,
+	PROTO(3, int, dup3, int, oldfd, int, newfd, int, flags),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_ACCESS(oldfd), ACTION_CREATE(newfd)))
+)
+
 /* C standard file operations */
 PRELOAD_LIBC_FUNC(
 	fopen,
