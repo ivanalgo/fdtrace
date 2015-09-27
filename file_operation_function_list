@@ -1,0 +1,131 @@
+Name			Type			glibc
+-------------------------------------------------------------------------------------------
+read 			 access			read
+write 			 access			write
+open 			 create			open
+close 			 close			close
+fstat 			 access			fstat
+poll 			 access			poll	  
+lseek 			 access			lseek
+mmap 			 access			mmap
+ioctl 			 access			ioctl
+pread64 		 access			pread
+pwrite64 		 access			pwrite
+readv 			 access			readv
+writev 			 access			writev
+pipe 			 create			pipe
+select 			 access			select
+shmget 			 not 	 sure 
+shmat 			 not 	 sure 
+shmctl 			 not 	 sure 
+dup 			 create			dup
+dup2 			 create			dup2
+sendfile 		 access			sendfile
+socket 			 create			socket
+connect 		 access			connect
+accept 			 create			accept
+sendto 			 access			sendto
+recvfrom 		 access			recvfrom
+sendmsg 		 access			sendmsg
+recvmsg 		 access			recvmsg
+shutdown 		 access 	  
+bind 			 access 	  
+listen 			 access 	  
+getsockname 		 access 	  
+getpeername 		 accces 	  
+socketpair 		 create 	  
+setsockopt 		 access 	  
+getsockopt 		 access 	  
+semget 			 not 	 sure 
+semop 			 not 	 sure 
+semctl 			 not 	 sure 
+shmdt 			 not 	 sure 
+msgget 			 not 	 sure 
+msgsnd 			 not 	 sure 
+msgrcv 			 not 	 sure 
+msgctl 			 not 	 sure 
+fcntl 			 access 	  
+flock 			 access 	  
+fsync 			 access 	  
+fdatasync 		 access 	  
+ftruncate 		 access 	  
+fchdir 			 access 	  
+creat 			 create 	  
+fchmod 			 access 	  
+fchown 			 access 	  
+fstatfs 		 access 	  
+readahead 		 access 	  
+setxattr 		  	  
+lsetxattr 		  	  
+fsetxattr 		  	  
+getxattr 		  	  
+lgetxattr 		  	  
+fgetxattr 		  	  
+listxattr 		  	  
+llistxattr 		  	  
+flistxattr 		  	  
+removexattr 		  	  
+lremovexattr 		  	  
+fremovexattr 		  	  
+epoll_create 		 create 	  
+epoll_ctl_old 		 access 	  
+epoll_wait_old 		 access 	  
+semtimedop 		 not 	 sure 
+fadvise64 		 access 	  
+epoll_wait 		 access 	  
+epoll_ctl 		 access 	  
+mq_open 		 create 	  
+mq_timedsend 		 access 	  
+mq_timedreceive 	 access 	  
+mq_notify 		 access 	  
+mq_getsetattr 		 access 	  
+inotify_init 		 create 	  
+inotify_add_watch 	 access 	  
+inotify_rm_watch 	 access 	  
+openat 			 create 	  
+mkdirat 		 access 	  
+mknodat 		 access 	  
+fchownat 		 access 	  
+futimesat 		 access 	  
+newfstatat 		 not 	 sure 
+unlinkat 		 access 	  
+renameat 		 access 	  
+linkat 			 access 	  
+symlinkat 		 access 	  
+readlinkat 		 access 	  
+fchmodat 		 access 	  
+faccessat 		 access 	  
+pselect6 		 access 	  
+ppoll 			 access 	  
+splice 			 access 	  
+tee 			 access 	  
+sync_file_range 	 access 	  
+vmsplice 		 access 	  
+utimensat 		 access 	  
+epoll_pwait 		 access 	  
+signalfd 		 create/access
+timerfd_create 		 create/access
+eventfd 		 create 	  
+fallocate 		 access 	  
+timerfd_settime 	 access 	  
+timerfd_gettime 	 access 	  
+accept4 		 create 	  
+signalfd4 		 create 	 (glibc signalfd)
+eventfd2 		 create 	 (glibc eventfd)
+epoll_create1 		 create 	  
+dup3 			 create 	  
+pipe2 			 create 	  
+inotify_init1 		 create 	  
+preadv 			 access 	  
+pwritev 		 access 	  
+recvmmsg 		 access 	  
+fanotify_init 		 not 	 sure 
+fanotify_mark 		 not 	 sure 
+prlimit64 		 not 	 sure 
+name_to_handle_at 	 not 	 sure 
+open_by_handle_at 	 not 	 sure 
+syncfs 			 access 	  
+sendmmsg 		 access 	  
+setns 			 access 	  
+process_vm_readv 	 not 	 sure 
+process_vm_writev 	 not 	 sure 
