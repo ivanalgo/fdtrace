@@ -28,14 +28,14 @@ sendto 			 access			sendto
 recvfrom 		 access			recvfrom
 sendmsg 		 access			sendmsg
 recvmsg 		 access			recvmsg
-shutdown 		 access 	  
-bind 			 access 	  
-listen 			 access 	  
-getsockname 		 access 	  
-getpeername 		 accces 	  
-socketpair 		 create 	  
-setsockopt 		 access 	  
-getsockopt 		 access 	  
+shutdown 		 access			shutdown
+bind 			 access			bind
+listen 			 access			listen
+getsockname 		 access			getsockname
+getpeername 		 accces			getpeername
+socketpair 		 create			socketpair 	  
+setsockopt 		 access			setsockopt
+getsockopt 		 access			getsockopt
 semget 			 not 	 sure 
 semop 			 not 	 sure 
 semctl 			 not 	 sure 
@@ -44,17 +44,17 @@ msgget 			 not 	 sure
 msgsnd 			 not 	 sure 
 msgrcv 			 not 	 sure 
 msgctl 			 not 	 sure 
-fcntl 			 access 	  
-flock 			 access 	  
-fsync 			 access 	  
-fdatasync 		 access 	  
-ftruncate 		 access 	  
-fchdir 			 access 	  
-creat 			 create 	  
-fchmod 			 access 	  
-fchown 			 access 	  
-fstatfs 		 access 	  
-readahead 		 access 	  
+fcntl 			 access			fcntl
+flock 			 access			flock
+fsync 			 access			fsync
+fdatasync 		 access			fdatasync
+ftruncate 		 access			ftruncate
+fchdir 			 access			fchdir
+creat 			 create			creat
+fchmod 			 access			fchmod
+fchown 			 access			fchown
+fstatfs 		 access			fstatfs 	  
+readahead 		 access			readahead
 setxattr 		  	  
 lsetxattr 		  	  
 fsetxattr 		  	  
@@ -67,22 +67,22 @@ flistxattr
 removexattr 		  	  
 lremovexattr 		  	  
 fremovexattr 		  	  
-epoll_create 		 create 	  
-epoll_ctl_old 		 access 	  
-epoll_wait_old 		 access 	  
+epoll_create 		 create			epoll_create
+epoll_ctl_old 		 access			NA
+epoll_wait_old 		 access			NA
 semtimedop 		 not 	 sure 
-fadvise64 		 access 	  
-epoll_wait 		 access 	  
-epoll_ctl 		 access 	  
-mq_open 		 create 	  
-mq_timedsend 		 access 	  
-mq_timedreceive 	 access 	  
-mq_notify 		 access 	  
-mq_getsetattr 		 access 	  
-inotify_init 		 create 	  
-inotify_add_watch 	 access 	  
-inotify_rm_watch 	 access 	  
-openat 			 create 	  
+fadvise64 		 access 		posix_fadvise
+epoll_wait 		 access			epoll_wait
+epoll_ctl 		 access			epoll_ctl
+mq_open 		 create			mq_open
+mq_timedsend 		 access			mq_timedsend
+mq_timedreceive 	 access			mq_timedreceive
+mq_notify 		 access			mq_notify
+mq_getsetattr 		 access			mq_getattr/???
+inotify_init 		 create			inotify_init	 
+inotify_add_watch 	 access			inotify_add_watch
+inotify_rm_watch 	 access			inotify_rm_watch
+openat 			 create			openat
 mkdirat 		 access 	  
 mknodat 		 access 	  
 fchownat 		 access 	  
