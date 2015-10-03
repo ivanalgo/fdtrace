@@ -131,6 +131,13 @@ PRELOAD_LIBC_FUNC(
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
 
+PRELOAD_LIBC_FUNC(
+	fchmod,
+	PROTO(2, int, fchmod, int, fd, mode_t, mode),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
 /* temp file operations */
 
 PRELOAD_LIBC_FUNC(
