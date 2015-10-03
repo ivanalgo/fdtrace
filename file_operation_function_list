@@ -54,7 +54,7 @@ creat 		Y	create			creat		NORMAL_FILE
 fchmod 		Y	access			fchmod
 fchown 		Y	access			fchown
 fstatfs 	Y	access			fstatfs 	  
-readahead 		 access			readahead
+readahead 	Y	 access			readahead
 setxattr 		  	  
 lsetxattr 		  	  
 fsetxattr 		  	  

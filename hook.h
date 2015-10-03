@@ -110,6 +110,7 @@ typedef struct statfs * statfs_p_t;
 #define TYPE_FMT_size_t "%lu"
 #define TYPE_FMT_ssize_t "%ld"
 #define TYPE_FMT_off_t "%ld"
+#define TYPE_FMT_off64_t "%ld"
 #define TYPE_FMT_filp_t "%p"
 #define TYPE_FMT_pair_fd_t "[%d, %d]"
 #define TYPE_FMT_iovec_t "%p"
@@ -138,6 +139,7 @@ typedef struct statfs * statfs_p_t;
 #define TYPE_ARG_addr_t(val)		val
 #define TYPE_ARG_size_t(val)		val
 #define TYPE_ARG_off_t(val)		val
+#define TYPE_ARG_off64_t(val)		val
 #define TYPE_ARG_filp_t(val)		val
 #define TYPE_ARG_pair_fd_t(val)		val[0], val[1]
 #define TYPE_ARG_iovec_t(val)		val

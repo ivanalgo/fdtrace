@@ -152,6 +152,13 @@ PRELOAD_LIBC_FUNC(
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
 
+PRELOAD_LIBC_FUNC(
+	readahead,
+	PROTO(3, ssize_t, readahead, int, fd, off64_t, offset, size_t, count),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
 /* temp file operations */
 
 PRELOAD_LIBC_FUNC(
