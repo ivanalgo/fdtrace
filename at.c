@@ -36,7 +36,7 @@ PRELOAD_LIBC_FUNC(
 	unlinkat,
 	PROTO(3, int, unlinkat, int, dirfd, const_string_t, pathname, int, flags),
 	FAILURE(_return < 0),
-	WRAPPER(ACTION_ACCESS(dirfd), ACTION_NULL)	
+	WRAPPER(ACTION_IF(pathname[0] != '/' && dirfd != AT_FDCWD, ACTION_ACCESS(dirfd)), ACTION_NULL)	
 )
 
 PRELOAD_LIBC_FUNC(
