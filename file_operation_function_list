@@ -129,3 +129,7 @@ sendmmsg 		 access
 setns 			 access 	  
 process_vm_readv 	 not 	 sure 
 process_vm_writev 	 not 	 sure 
+
+	Y		create			opendir
+	Y		access			fdopendir
+	Y		close			close
