@@ -89,7 +89,7 @@ fchownat 	Y	 access			fchownat
 futimesat 	Y	 access			futimesat
 newfstatat 		 not 	 sure 
 unlinkat 	Y	 access			unlinkat
-renameat 		 access			renameat
+renameat 	Y	 access			renameat
 linkat 			 access			linkat
 symlinkat 		 access			symlinkat
 readlinkat 		 access			readlinkat
