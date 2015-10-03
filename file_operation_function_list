@@ -53,7 +53,7 @@ fchdir 		Y	access			fchdir
 creat 		Y	create			creat		NORMAL_FILE
 fchmod 		Y	access			fchmod
 fchown 		Y	access			fchown
-fstatfs 		access			fstatfs 	  
+fstatfs 	Y	access			fstatfs 	  
 readahead 		 access			readahead
 setxattr 		  	  
 lsetxattr 		  	  

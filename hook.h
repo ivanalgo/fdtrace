@@ -98,6 +98,7 @@ typedef void * addr_t;
 typedef FILE * filp_t;
 typedef int *  pair_fd_t;
 typedef struct stat * stat_p_t;
+typedef struct statfs * statfs_p_t;
 
 #define TYPE_FMT_int	"%d"
 #define TYPE_FMT_long	"%ld"
@@ -113,6 +114,7 @@ typedef struct stat * stat_p_t;
 #define TYPE_FMT_pair_fd_t "[%d, %d]"
 #define TYPE_FMT_iovec_t "%p"
 #define TYPE_FMT_stat_p_t "%p"
+#define TYPE_FMT_statfs_p_t "%p"
 #define TYPE_FMT_uid_t "%d"
 #define TYPE_FMT_gid_t "%d"
 
@@ -141,6 +143,7 @@ typedef struct stat * stat_p_t;
 #define TYPE_ARG_iovec_t(val)		val
 #define TYPE_ARG_ssize_t(val)		val
 #define TYPE_ARG_stat_p_t(val)		val
+#define TYPE_ARG_statfs_p_t(val)	val
 #define TYPE_ARG_uid_t(val)		val
 #define TYPE_ARG_gid_t(val)		val
 
