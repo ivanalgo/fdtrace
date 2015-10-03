@@ -49,3 +49,14 @@ PRELOAD_LIBC_FUNC(
 		),
 		ACTION_NULL)
 )
+
+PRELOAD_LIBC_FUNC(
+	linkat,
+	PROTO(5, int, linkat, int, olddirfd, const_string_t, oldpath, int, newdirfd, const_string_t, newpath, int, flags),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_COMP(
+			ACTION_IF(oldpath[0] != '/' && olddirfd != AT_FDCWD, ACTION_ACCESS(olddirfd)),
+			ACTION_IF(newpath[0] != '/' && newdirfd != AT_FDCWD, ACTION_ACCESS(newdirfd))
+		),
+		ACTION_NULL)
+)
