@@ -27,6 +27,13 @@ PRELOAD_LIBC_FUNC(
 )
 
 PRELOAD_LIBC_FUNC(
+	creat,
+	PROTO(2, int, creat, const_string_t, pathname, mode_t, mode),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
+)
+
+PRELOAD_LIBC_FUNC(
 	close,
 	PROTO(1, int, close, int, fd),
 	FAILURE(_return < 0),
