@@ -1,59 +1,59 @@
-Name			Type			glibc
--------------------------------------------------------------------------------------------
-read 			 access			read
-write 			 access			write
-open 			 create			open
-close 			 close			close
-fstat 			 access			fstat
-poll 			 access			poll	  
-lseek 			 access			lseek
-mmap 			 access			mmap
-ioctl 			 access			ioctl
-pread64 		 access			pread
-pwrite64 		 access			pwrite
-readv 			 access			readv
-writev 			 access			writev
-pipe 			 create			pipe
-select 			 access			select
-shmget 			 not 	 sure 
-shmat 			 not 	 sure 
-shmctl 			 not 	 sure 
-dup 			 create			dup
-dup2 			 create			dup2
-sendfile 		 access			sendfile
-socket 			 create			socket
-connect 		 access			connect
-accept 			 create			accept
-sendto 			 access			sendto
-recvfrom 		 access			recvfrom
-sendmsg 		 access			sendmsg
-recvmsg 		 access			recvmsg
-shutdown 		 access			shutdown
-bind 			 access			bind
-listen 			 access			listen
-getsockname 		 access			getsockname
-getpeername 		 accces			getpeername
-socketpair 		 create			socketpair 	  
-setsockopt 		 access			setsockopt
-getsockopt 		 access			getsockopt
-semget 			 not 	 sure 
-semop 			 not 	 sure 
-semctl 			 not 	 sure 
-shmdt 			 not 	 sure 
-msgget 			 not 	 sure 
-msgsnd 			 not 	 sure 
-msgrcv 			 not 	 sure 
-msgctl 			 not 	 sure 
-fcntl 			 access			fcntl
-flock 			 access			flock
-fsync 			 access			fsync
-fdatasync 		 access			fdatasync
-ftruncate 		 access			ftruncate
-fchdir 			 access			fchdir
-creat 			 create			creat
-fchmod 			 access			fchmod
-fchown 			 access			fchown
-fstatfs 		 access			fstatfs 	  
+Name 		preload	Type			glibc		capabilities		require
+-----------------------------------------------------------------------------------------------------
+read 		Y	access			read					NORMAL_FILE
+write 		Y	access			write					NORMAL_FILE
+open 		Y	create			open		NORMAL_FILE	
+close 		Y	close			close					ALL_FILE
+fstat 		Y	access			fstat					NORMAL_FILE
+poll 			access			poll	  
+lseek 		Y	access			lseek					NORMAL_FILE
+mmap 			access			mmap
+ioctl 		Y	access			ioctl					ALL_FILE
+pread64 	Y	access			pread					NORMAL_FILE
+pwrite64 	Y	access			pwrite
+readv 		Y	access			readv
+writev 		Y	access			writev
+pipe 		Y	create			pipe		NORMAL_FILE
+select 			access			select
+shmget 			not 	 sure 
+shmat 			not 	 sure 
+shmctl 			not 	 sure 
+dup 		Y	create			dup		DUP
+dup2 		Y	create			dup2		DUP
+sendfile 		access			sendfile
+socket 			create			socket		SOCKET_FILE
+connect 		access			connect
+accept 			create			accept		SOCKET_FILE
+sendto 			access			sendto
+recvfrom 		access			recvfrom
+sendmsg 		access			sendmsg
+recvmsg 		access			recvmsg
+shutdown 		access			shutdown
+bind 			access			bind
+listen 			access			listen
+getsockname 		access			getsockname
+getpeername 		accces			getpeername
+socketpair 		create			socketpair	SOCKET_FILE
+setsockopt 		access			setsockopt
+getsockopt 		access			getsockopt
+semget 			not 	 sure 
+semop 			not 	 sure 
+semctl 			not 	 sure 
+shmdt 			not 	 sure 
+msgget 			not 	 sure 
+msgsnd 			not 	 sure 
+msgrcv 			not 	 sure 
+msgctl 			not 	 sure 
+fcntl 		Y	access			fcntl
+flock 		Y	access			flock
+fsync 		Y	access			fsync
+fdatasync 	Y	access			fdatasync
+ftruncate 	Y	access			ftruncate
+fchdir 			access			fchdir
+creat 			create			creat		NORMAL_FILE
+fchmod 			access			fchmod
+fchown 			access			fchown
+fstatfs 		access			fstatfs 	  
 readahead 		 access			readahead
 setxattr 		  	  
 lsetxattr 		  	  

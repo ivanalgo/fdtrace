@@ -96,6 +96,34 @@ PRELOAD_LIBC_FUNC(
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
 
+PRELOAD_LIBC_FUNC(
+	flock,
+	PROTO(2, int, flock, int, fd, int, operation),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
+PRELOAD_LIBC_FUNC(
+	fsync,
+	PROTO(1, int, fsync, int, fd),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
+PRELOAD_LIBC_FUNC(
+	fdatasync,
+	PROTO(1, int, fdatasync, int, fd),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
+PRELOAD_LIBC_FUNC(
+	ftruncate,
+	PROTO(2, int, ftruncate, int, fd, off_t, length),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
 /* temp file operations */
 
 PRELOAD_LIBC_FUNC(

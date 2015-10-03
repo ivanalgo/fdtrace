@@ -9,4 +9,4 @@ all: hook.c hook.h fcntl.c ioctl.c fd_mgmt.c fd_mgmt.h
 	gcc -Wall -g -o fdcheck.so -fPIC -shared hook.c fcntl.c ioctl.c fd_mgmt.c -ldl
 
 clean:
-	rm -rf fdcheck.so
+	rm -rf fdcheck.so hook.i fcntl.i ioctl.i
