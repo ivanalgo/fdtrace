@@ -14,6 +14,7 @@
 #define PARAM_2(type2, arg2, ...)	type2 arg2, PARAM_1(__VA_ARGS__)
 #define PARAM_3(type3, arg3, ...)	type3 arg3, PARAM_2(__VA_ARGS__)
 #define PARAM_4(type4, arg4, ...)	type4 arg4, PARAM_3(__VA_ARGS__)
+#define PARAM_5(type5, arg5, ...)	type5 arg5, PARAM_4(__VA_ARGS__)
 
 #define PARAM(num, ...)			PARAM_##num(__VA_ARGS__)
 
@@ -21,6 +22,7 @@
 #define ARGS_2(type2, arg2, ...)	arg2, ARGS_1(__VA_ARGS__)
 #define ARGS_3(type3, arg3, ...)	arg3, ARGS_2(__VA_ARGS__)
 #define ARGS_4(type4, arg4, ...)	arg4, ARGS_3(__VA_ARGS__)
+#define ARGS_5(type5, arg5, ...)	arg5, ARGS_4(__VA_ARGS__)
 
 #define ARGS(num, ...)			ARGS_##num(__VA_ARGS__)
 
@@ -124,6 +126,7 @@ typedef struct statfs * statfs_p_t;
 #define TYPES_STR_2(type2, val2, ...)	TYPE_FMT_##type2 ", " TYPES_STR_1(__VA_ARGS__)
 #define TYPES_STR_3(type3, val3, ...)	TYPE_FMT_##type3 ", " TYPES_STR_2(__VA_ARGS__)
 #define TYPES_STR_4(type4, val4, ...)	TYPE_FMT_##type4 ", " TYPES_STR_3(__VA_ARGS__)
+#define TYPES_STR_5(type5, val5, ...)	TYPE_FMT_##type5 ", " TYPES_STR_4(__VA_ARGS__)
 
 #define TYPES_STR(num, ...)	TYPES_STR_##num(__VA_ARGS__)
 
@@ -157,6 +160,8 @@ typedef struct statfs * statfs_p_t;
 #define PRINT_ARGS_2(type2, val2, ...)	TYPE_ARG(type2, val2), PRINT_ARGS_1(__VA_ARGS__)
 #define PRINT_ARGS_3(type3, val3, ...)	TYPE_ARG(type3, val3), PRINT_ARGS_2(__VA_ARGS__)
 #define PRINT_ARGS_4(type4, val4, ...)	TYPE_ARG(type4, val4), PRINT_ARGS_3(__VA_ARGS__)
+#define PRINT_ARGS_5(type5, val5, ...)	TYPE_ARG(type5, val5), PRINT_ARGS_4(__VA_ARGS__)
+
 #define PRINT_ARGS(retval, num, rtype, name, ...)				\
 	#name, PRINT_ARGS_##num(__VA_ARGS__), PRINT_ARGS_1(rtype, retval)	
 

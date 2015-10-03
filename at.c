@@ -23,3 +23,10 @@ PRELOAD_LIBC_FUNC(
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_ACCESS(dirfd), ACTION_NULL)
 )
+
+PRELOAD_LIBC_FUNC(
+	fchownat,
+	PROTO(5, int, fchownat, int, dirfd, const_string_t, pathname, uid_t, owner, gid_t, group, int, flags),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(dirfd), ACTION_NULL)	
+)
