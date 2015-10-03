@@ -83,7 +83,7 @@ inotify_init 		 create			inotify_init
 inotify_add_watch 	 access			inotify_add_watch
 inotify_rm_watch 	 access			inotify_rm_watch
 openat 		Y	 create			openat
-mkdirat 		 access			mkdirat
+mkdirat 	Y	 access			mkdirat
 mknodat 		 access			mknodat
 fchownat 		 access			fchownat
 futimesat 		 access			futimesat

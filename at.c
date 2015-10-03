@@ -9,3 +9,10 @@ PRELOAD_LIBC_FUNC(
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_ACCESS(dirfd), ACTION_CREATE(_return))
 )
+
+PRELOAD_LIBC_FUNC(
+	fmkdirat,
+	PROTO(3, int, fmkdirat, int, dirfd, const_string_t, pathname, mode_t, mode),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(dirfd), ACTION_NULL)	
+)
