@@ -83,42 +83,42 @@ inotify_init 		 create			inotify_init
 inotify_add_watch 	 access			inotify_add_watch
 inotify_rm_watch 	 access			inotify_rm_watch
 openat 			 create			openat
-mkdirat 		 access 	  
-mknodat 		 access 	  
-fchownat 		 access 	  
-futimesat 		 access 	  
+mkdirat 		 access			mkdirat
+mknodat 		 access			mknodat
+fchownat 		 access			fchownat
+futimesat 		 access			futimesat
 newfstatat 		 not 	 sure 
-unlinkat 		 access 	  
-renameat 		 access 	  
-linkat 			 access 	  
-symlinkat 		 access 	  
-readlinkat 		 access 	  
-fchmodat 		 access 	  
-faccessat 		 access 	  
-pselect6 		 access 	  
-ppoll 			 access 	  
-splice 			 access 	  
-tee 			 access 	  
-sync_file_range 	 access 	  
-vmsplice 		 access 	  
-utimensat 		 access 	  
-epoll_pwait 		 access 	  
-signalfd 		 create/access
-timerfd_create 		 create/access
-eventfd 		 create 	  
-fallocate 		 access 	  
-timerfd_settime 	 access 	  
-timerfd_gettime 	 access 	  
-accept4 		 create 	  
-signalfd4 		 create 	 (glibc signalfd)
-eventfd2 		 create 	 (glibc eventfd)
-epoll_create1 		 create 	  
-dup3 			 create 	  
-pipe2 			 create 	  
-inotify_init1 		 create 	  
-preadv 			 access 	  
-pwritev 		 access 	  
-recvmmsg 		 access 	  
+unlinkat 		 access			unlinkat
+renameat 		 access			renameat
+linkat 			 access			linkat
+symlinkat 		 access			symlinkat
+readlinkat 		 access			readlinkat
+fchmodat 		 access			fchmodat
+faccessat 		 access			faccessat
+pselect6 		 access			pselect 	  
+ppoll 			 access			ppoll
+splice 			 access			splice
+tee 			 access			tee
+sync_file_range 	 access			sync_file_range
+vmsplice 		 access			vmsplice
+utimensat 		 access			utimensat
+epoll_pwait 		 access			epoll_pwait	  
+signalfd 		 create/access		signalfd
+timerfd_create 		 create/access		timerfd_create
+eventfd 		 create			eventfd
+fallocate 		 access			fallocate
+timerfd_settime 	 access			timerfd_settime
+timerfd_gettime 	 access			timerfd_gettime
+accept4 		 create			accept4
+signalfd4 		 create			signalfd
+eventfd2 		 create			eventfd
+epoll_create1 		 create			epoll_create1	  
+dup3 			 create			dup3
+pipe2 			 create			pipe2
+inotify_init1 		 create			inotify_init1
+preadv 			 access			preadv
+pwritev 		 access			pwritev
+recvmmsg 		 access			recvmmsg
 fanotify_init 		 not 	 sure 
 fanotify_mark 		 not 	 sure 
 prlimit64 		 not 	 sure 
