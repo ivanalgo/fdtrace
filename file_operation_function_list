@@ -82,7 +82,7 @@ mq_getsetattr 		 access			mq_getattr/???
 inotify_init 		 create			inotify_init	 
 inotify_add_watch 	 access			inotify_add_watch
 inotify_rm_watch 	 access			inotify_rm_watch
-openat 			 create			openat
+openat 		Y	 create			openat
 mkdirat 		 access			mkdirat
 mknodat 		 access			mknodat
 fchownat 		 access			fchownat
