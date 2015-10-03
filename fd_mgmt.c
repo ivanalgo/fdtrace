@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <sys/prctl.h>
 
 #include "fd_mgmt.h"
 
@@ -27,8 +28,11 @@ extern FILE *debugfp;
 
 static inline void debug_log(const char *action, int fd)
 {
-	if (loglevel > 0 ) 
-		fprintf(debugfp, "[pid %d] %s %s (%d)\n", getpid(), __FUNCTION__, action, fd);
+	if (loglevel > 0 ) { 
+		char name[17] = "";
+		prctl(PR_GET_NAME, name);
+		fprintf(debugfp, "[pid %d %s] %s %s (%d)\n", getpid(), name, __FUNCTION__, action, fd);
+	}
 }
 
 struct fd_entry fd_entry[MAX_NR_OPEN_FILES];

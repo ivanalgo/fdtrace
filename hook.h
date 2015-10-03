@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdarg.h>
 #include <assert.h>
+#include <unistd.h>
+#include <sys/prctl.h>
 
 #define PARAM_1(type1, arg1) 		type1 arg1
 #define PARAM_2(type2, arg2, ...)	type2 arg2, PARAM_1(__VA_ARGS__)
@@ -147,8 +149,10 @@ extern FILE *debugfp;
 #define TRACE_LOG(retval, num, rtype, name, ...)				\
 	{									\
 		if (loglevel > 0) {						\
-			fprintf(debugfp, PRINT_FMT(retval, num, rtype, name, __VA_ARGS__),	\
-			       PRINT_ARGS(retval, num, rtype, name, __VA_ARGS__));	\
+			char name[17] = "";					\
+			prctl(PR_GET_NAME, name);				\
+			fprintf(debugfp, "[pid %d %s] " PRINT_FMT(retval, num, rtype, name, __VA_ARGS__),	\
+			       getpid(), name, PRINT_ARGS(retval, num, rtype, name, __VA_ARGS__));	\
 		}								\
 	}
 
