@@ -49,8 +49,8 @@ flock 		Y	access			flock
 fsync 		Y	access			fsync
 fdatasync 	Y	access			fdatasync
 ftruncate 	Y	access			ftruncate
-fchdir 			access			fchdir
-creat 			create			creat		NORMAL_FILE
+fchdir 		Y	access			fchdir
+creat 		Y	create			creat		NORMAL_FILE
 fchmod 			access			fchmod
 fchown 			access			fchown
 fstatfs 		access			fstatfs 	  
