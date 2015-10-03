@@ -113,6 +113,8 @@ typedef struct stat * stat_p_t;
 #define TYPE_FMT_pair_fd_t "[%d, %d]"
 #define TYPE_FMT_iovec_t "%p"
 #define TYPE_FMT_stat_p_t "%p"
+#define TYPE_FMT_uid_t "%d"
+#define TYPE_FMT_gid_t "%d"
 
 #define TYPES_STR_1(type1, val1)	TYPE_FMT_##type1
 #define TYPES_STR_2(type2, val2, ...)	TYPE_FMT_##type2 ", " TYPES_STR_1(__VA_ARGS__)
@@ -139,6 +141,8 @@ typedef struct stat * stat_p_t;
 #define TYPE_ARG_iovec_t(val)		val
 #define TYPE_ARG_ssize_t(val)		val
 #define TYPE_ARG_stat_p_t(val)		val
+#define TYPE_ARG_uid_t(val)		val
+#define TYPE_ARG_gid_t(val)		val
 
 #define TYPE_ARG(type, val) TYPE_ARG_##type(val)
 

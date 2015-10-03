@@ -138,6 +138,13 @@ PRELOAD_LIBC_FUNC(
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
 
+PRELOAD_LIBC_FUNC(
+	fchown,
+	PROTO(3, int, fchown, int, fd, uid_t, owner, gid_t, group),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
 /* temp file operations */
 
 PRELOAD_LIBC_FUNC(

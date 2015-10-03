@@ -51,8 +51,8 @@ fdatasync 	Y	access			fdatasync
 ftruncate 	Y	access			ftruncate
 fchdir 		Y	access			fchdir
 creat 		Y	create			creat		NORMAL_FILE
-fchmod 			access			fchmod
-fchown 			access			fchown
+fchmod 		Y	access			fchmod
+fchown 		Y	access			fchown
 fstatfs 		access			fstatfs 	  
 readahead 		 access			readahead
 setxattr 		  	  
