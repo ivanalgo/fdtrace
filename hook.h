@@ -1,11 +1,14 @@
 #ifndef _HOOK_H
 #define _HOOK_H
 
+#define _GNU_SOURCE
 #include <string.h>
 #include <stdarg.h>
 #include <assert.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <sys/prctl.h>
+#include <dlfcn.h>
 
 #define PARAM_1(type1, arg1) 		type1 arg1
 #define PARAM_2(type2, arg2, ...)	type2 arg2, PARAM_1(__VA_ARGS__)
@@ -94,6 +97,7 @@ typedef const void * const_addr_t;
 typedef void * addr_t;
 typedef FILE * filp_t;
 typedef int *  pair_fd_t;
+typedef struct stat * stat_p_t;
 
 #define TYPE_FMT_int	"%d"
 #define TYPE_FMT_long	"%ld"
@@ -108,6 +112,7 @@ typedef int *  pair_fd_t;
 #define TYPE_FMT_filp_t "%p"
 #define TYPE_FMT_pair_fd_t "[%d, %d]"
 #define TYPE_FMT_iovec_t "%p"
+#define TYPE_FMT_stat_p_t "%p"
 
 #define TYPES_STR_1(type1, val1)	TYPE_FMT_##type1
 #define TYPES_STR_2(type2, val2, ...)	TYPE_FMT_##type2 ", " TYPES_STR_1(__VA_ARGS__)
@@ -133,6 +138,7 @@ typedef int *  pair_fd_t;
 #define TYPE_ARG_pair_fd_t(val)		val[0], val[1]
 #define TYPE_ARG_iovec_t(val)		val
 #define TYPE_ARG_ssize_t(val)		val
+#define TYPE_ARG_stat_p_t(val)		val
 
 #define TYPE_ARG(type, val) TYPE_ARG_##type(val)
 

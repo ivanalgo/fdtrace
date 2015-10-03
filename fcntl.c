@@ -1,6 +1,4 @@
 #define _GNU_SOURCE
-#include <stdio.h>
-#include <dlfcn.h>
 
 #include "hook.h"
 #include "fd_mgmt.h"
