@@ -192,6 +192,7 @@ extern FILE *debugfp;
 #define ACTION_CLOSE(fd)	mgmt_close_fd(fd)
 #define ACTION_COMP(act1, act2)	act1;act2
 #define ACTION_IF(cond, act)	if (cond) act
+#define ACTION_IF_ELSE(cond, act1, act2)	if (cond) act1 else act2
 
 #define BEFOR(prev, next) prev
 #define AFTER(prev, next) next
