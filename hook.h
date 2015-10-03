@@ -164,10 +164,10 @@ extern FILE *debugfp;
 #define TRACE_LOG(retval, num, rtype, name, ...)				\
 	{									\
 		if (loglevel > 0) {						\
-			char name[17] = "";					\
-			prctl(PR_GET_NAME, name);				\
+			char pname[17] = "";					\
+			prctl(PR_GET_NAME, pname);				\
 			fprintf(debugfp, "[pid %d %s] " PRINT_FMT(retval, num, rtype, name, __VA_ARGS__),	\
-			       getpid(), name, PRINT_ARGS(retval, num, rtype, name, __VA_ARGS__));	\
+			       getpid(), pname, PRINT_ARGS(retval, num, rtype, name, __VA_ARGS__));	\
 		}								\
 	}
 
