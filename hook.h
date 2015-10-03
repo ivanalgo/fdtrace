@@ -34,7 +34,7 @@
 	if (retval < 0)								\
 		return retval;							
 
-const char *type2fmt(const char *type)
+static inline const char *type2fmt(const char *type)
 {
 	char buf[64] = "Error type ";
 
@@ -54,7 +54,7 @@ const char *type2fmt(const char *type)
 	return strcat(buf, type);
 }
 
-const char *generate_print_fmt(char *buf, const char *func, int num, ...)
+static inline const char *generate_print_fmt(char *buf, const char *func, int num, ...)
 {
 	va_list ap;
 	const char *rtype = NULL;
@@ -94,6 +94,7 @@ typedef FILE * filp_t;
 typedef int *  pair_fd_t;
 
 #define TYPE_FMT_int	"%d"
+#define TYPE_FMT_long	"%ld"
 #define TYPE_FMT_string_t "\"%s\""
 #define TYPE_FMT_const_string_t "\"%s\""
 #define TYPE_FMT_mode_t "0%03o"
@@ -118,6 +119,7 @@ typedef int *  pair_fd_t;
 	//generate_print_fmt(buf, #name, num + 1, TYPES_STR(1, rtype, 0), TYPES_STR(num, __VA_ARGS__))
 
 #define TYPE_ARG_int(val)		val
+#define TYPE_ARG_long(val)		val
 #define	TYPE_ARG_string_t(val)		val
 #define TYPE_ARG_const_string_t(val)	val
 #define TYPE_ARG_mode_t(val)		val
@@ -159,6 +161,7 @@ extern FILE *debugfp;
 #define ACTION_ACCESS(fd)	mgmt_access_fd(fd)
 #define ACTION_CLOSE(fd)	mgmt_close_fd(fd)
 #define ACTION_COMP(act1, act2)	act1;act2
+#define ACTION_IF(cond, act)	if (cond) act
 
 #define BEFOR(prev, next) prev
 #define AFTER(prev, next) next

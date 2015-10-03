@@ -157,6 +157,22 @@ PRELOAD_LIBC_FUNC(
 	WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_CREATE(pipefd[0]), ACTION_CREATE(pipefd[1])))
 )
 
+/* socket operations */
+
+PRELOAD_LIBC_FUNC(
+	socket,
+	PROTO(3, int, socket, int, domain, int, type, int, protocol),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
+)
+
+PRELOAD_LIBC_FUNC(
+	socketpair,
+	PROTO(4, int, socketpair, int, domain, int, type, int, protocol, pair_fd_t, sv),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_CREATE(sv[0]), ACTION_CREATE(sv[1])))
+)
+
 /* specisal case: vfork, must be replace by fork 
  * child process spwaned by vfork can't modified the global data
  * because the parent and child shared the same data.
