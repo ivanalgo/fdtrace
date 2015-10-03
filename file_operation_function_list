@@ -86,7 +86,7 @@ openat 		Y	 create			openat
 mkdirat 	Y	 access			mkdirat
 mknodat 	Y	 access			mknodat
 fchownat 	Y	 access			fchownat
-futimesat 		 access			futimesat
+futimesat 	Y	 access			futimesat
 newfstatat 		 not 	 sure 
 unlinkat 		 access			unlinkat
 renameat 		 access			renameat

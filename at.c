@@ -30,3 +30,10 @@ PRELOAD_LIBC_FUNC(
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_ACCESS(dirfd), ACTION_NULL)	
 )
+
+PRELOAD_LIBC_FUNC(
+	futimesat,
+	PROTO(3, int, futimesat, int, dirfd, const_string_t, pathname, const_timeval_pair_t, times),
+	FAILURE(_return < 0),
+	WRAPPER(ACTION_ACCESS(dirfd), ACTION_NULL)
+)

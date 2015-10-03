@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/prctl.h>
+#include <sys/types.h>
 #include <dlfcn.h>
 
 #define PARAM_1(type1, arg1) 		type1 arg1
@@ -101,6 +102,7 @@ typedef FILE * filp_t;
 typedef int *  pair_fd_t;
 typedef struct stat * stat_p_t;
 typedef struct statfs * statfs_p_t;
+typedef const struct timeval const_timeval_pair_t[2];
 
 #define TYPE_FMT_int	"%d"
 #define TYPE_FMT_long	"%ld"
@@ -121,6 +123,7 @@ typedef struct statfs * statfs_p_t;
 #define TYPE_FMT_uid_t "%d"
 #define TYPE_FMT_gid_t "%d"
 #define TYPE_FMT_dev_t "%ld"
+#define TYPE_FMT_const_timeval_pair_t "FIXME???%s"
 
 #define TYPES_STR_1(type1, val1)	TYPE_FMT_##type1
 #define TYPES_STR_2(type2, val2, ...)	TYPE_FMT_##type2 ", " TYPES_STR_1(__VA_ARGS__)
@@ -153,6 +156,7 @@ typedef struct statfs * statfs_p_t;
 #define TYPE_ARG_uid_t(val)		val
 #define TYPE_ARG_gid_t(val)		val
 #define TYPE_ARG_dev_t(val)		val
+#define TYPE_ARG_const_timeval_pair_t(val) ""
 
 #define TYPE_ARG(type, val) TYPE_ARG_##type(val)
 
