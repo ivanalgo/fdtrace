@@ -54,7 +54,7 @@ creat 		Y	create			creat		NORMAL_FILE
 fchmod 		Y	access			fchmod
 fchown 		Y	access			fchown
 fstatfs 	Y	access			fstatfs 	  
-readahead 	Y	 access			readahead
+readahead 	Y	access			readahead
 setxattr 		  	  
 lsetxattr 		  	  
 fsetxattr 		  	  
@@ -71,7 +71,7 @@ epoll_create 		 create			epoll_create
 epoll_ctl_old 		 access			NA
 epoll_wait_old 		 access			NA
 semtimedop 		 not 	 sure 
-fadvise64 		 access 		posix_fadvise
+fadvise64 	Y	 access 		posix_fadvise
 epoll_wait 		 access			epoll_wait
 epoll_ctl 		 access			epoll_ctl
 mq_open 		 create			mq_open

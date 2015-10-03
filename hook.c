@@ -159,6 +159,13 @@ PRELOAD_LIBC_FUNC(
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
 
+PRELOAD_LIBC_FUNC(
+	posix_fadvise,
+	PROTO(4, int, posix_fadvise, int, fd, off_t, offset, off_t, len, int, advice),
+	FAILURE(_return != 0),
+	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
+)
+
 /* temp file operations */
 
 PRELOAD_LIBC_FUNC(
