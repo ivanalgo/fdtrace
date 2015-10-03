@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 #include "fd_mgmt.h"
 
@@ -82,21 +83,23 @@ void mgmt_access_fd(int fd)
 }
 
 int (*__read)(int fd, char *buf, size_t len);
-static void init_all_fds() __attribute__((constructor));
+static void init_all_fds() __attribute__((constructor(200)));
 static void init_all_fds()
 {
 	int i;
 	struct fd_entry *fde;	
+	struct stat buf;
 
 	for (i = 0, fde = &fd_entry[0]; i < MAX_NR_OPEN_FILES; ++i, ++fde) {
 		/*
 		 * test whether this @i fd is opend before.
 		 * such as opend by ld, or aready opened before execve
 		 */
-		if (__read(i, NULL, 0) == -1 && errno == EBADF) {
+		if (fstat(i, &buf) == -1 && errno == EBADF) {
 			fde->fstat = FSTAT_EMPTY;
 		} else {
 			fde->fstat = FSTAT_USED;
+			debug_log("In Used", i);
 		}
 
 		pthread_mutex_init(&fde->lock, NULL);

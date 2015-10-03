@@ -170,7 +170,7 @@ extern FILE *debugfp;
 	typeof(TYPE(proto)) __##name = NULL;					\
 										\
 	static void probe_##name##_real_func(void)				\
-			 __attribute__((constructor(199)));			\
+			 __attribute__((constructor(150)));			\
 	static void probe_##name##_real_func(void)				\
 	{									\
 		__##name = dlsym(RTLD_NEXT, #name);				\
