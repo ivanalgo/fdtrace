@@ -135,9 +135,17 @@ PRELOAD_LIBC_FUNC(
 )
 
 /* C standard file operations */
+
 PRELOAD_LIBC_FUNC(
 	fopen,
 	PROTO(2, filp_t, fopen, const_string_t, path, const_string_t, mode),
+	FAILURE(_return == NULL),
+	WRAPPER(ACTION_NULL, ACTION_CREATE(fileno(_return)))
+)
+
+PRELOAD_LIBC_FUNC(
+	fopen64,
+	PROTO(2, filp_t, fopen64, const_string_t, path, const_string_t, mode),
 	FAILURE(_return == NULL),
 	WRAPPER(ACTION_NULL, ACTION_CREATE(fileno(_return)))
 )
