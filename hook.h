@@ -118,6 +118,7 @@ typedef struct statfs * statfs_p_t;
 #define TYPE_FMT_statfs_p_t "%p"
 #define TYPE_FMT_uid_t "%d"
 #define TYPE_FMT_gid_t "%d"
+#define TYPE_FMT_dev_t "%ld"
 
 #define TYPES_STR_1(type1, val1)	TYPE_FMT_##type1
 #define TYPES_STR_2(type2, val2, ...)	TYPE_FMT_##type2 ", " TYPES_STR_1(__VA_ARGS__)
@@ -148,6 +149,7 @@ typedef struct statfs * statfs_p_t;
 #define TYPE_ARG_statfs_p_t(val)	val
 #define TYPE_ARG_uid_t(val)		val
 #define TYPE_ARG_gid_t(val)		val
+#define TYPE_ARG_dev_t(val)		val
 
 #define TYPE_ARG(type, val) TYPE_ARG_##type(val)
 
