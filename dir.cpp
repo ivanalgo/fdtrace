@@ -1,7 +1,6 @@
 #include "hook.hpp"
 #include "fd_mgmt.hpp"
 
-#if 0
 PRELOAD_LIBC_FUNC(
 	opendir,
 	PROTO(1, dir_p_t, opendir, const_string_t, name),
@@ -25,4 +24,3 @@ PRELOAD_LIBC_FUNC(
 		ACTION_NULL
 	)
 )
-#endif

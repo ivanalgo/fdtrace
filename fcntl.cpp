@@ -9,7 +9,6 @@
 
 #define	F_DUPFD	  	0	/* Duplicate file descriptor.  */
 
-#if 0
 PRELOAD_LIBC_FUNC(
         fcntl,
         PROTO(3, int, fcntl, int, fd, int, cmd, long, arg),
@@ -17,4 +16,3 @@ PRELOAD_LIBC_FUNC(
         WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_ACCESS(fd),
                                          ACTION_IF(cmd == F_DUPFD, ACTION_CREATE(_return))))
 )
-#endif
