@@ -1,9 +1,10 @@
-#include "hook.h"
-#include "fd_mgmt.h"
+#include "hook.hpp"
+#include "fd_mgmt.hpp"
 
 #include <sys/types.h>
 #include <fcntl.h>
 
+#if 0
 PRELOAD_LIBC_FUNC(
 	fmkdirat,
 	PROTO(3, int, fmkdirat, int, dirfd, const_string_t, pathname, mode_t, mode),
@@ -60,3 +61,4 @@ PRELOAD_LIBC_FUNC(
 		),
 		ACTION_NULL)
 )
+#endif

@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include <sys/prctl.h>
 
-#include "fd_mgmt.h"
+#include "fd_mgmt.hpp"
 
 enum fstat {
 	FSTAT_EMPTY,
