@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <sys/uio.h>
 #include <errno.h>
+#include <sys/socket.h>
+
 
 #include "hook.hpp"
 #include "fd_mgmt.hpp"
@@ -55,14 +57,14 @@ PRELOAD_LIBC_FUNC(
 
 PRELOAD_LIBC_FUNC(
 	readv,	
-	PROTO(3, ssize_t, readv, int, fd, iovec_t, iov, int, iovcnt),
+	PROTO(3, ssize_t, readv, int, fd, const struct iovec *, iov, int, iovcnt),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
 
 PRELOAD_LIBC_FUNC(
 	writev,
-	PROTO(3, ssize_t, writev, int, fd, iovec_t, iov, int, iovcnt),
+	PROTO(3, ssize_t, writev, int, fd, const struct iovec *, iov, int, iovcnt),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
@@ -90,7 +92,7 @@ PRELOAD_LIBC_FUNC(
 
 PRELOAD_LIBC_FUNC(
 	fstat,
-	PROTO(2, int, fstat, int, fd, stat *, buf),
+	PROTO(2, int, fstat, int, fd, struct stat *, buf),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
@@ -146,7 +148,7 @@ PRELOAD_LIBC_FUNC(
 
 PRELOAD_LIBC_FUNC(
 	fstatfs,
-	PROTO(2, int, fstatfs, int, fd, statfs *, buf),
+	PROTO(2, int, fstatfs, int, fd, struct statfs *, buf),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_ACCESS(fd), ACTION_NULL)
 )
@@ -169,28 +171,28 @@ PRELOAD_LIBC_FUNC(
 
 PRELOAD_LIBC_FUNC(
 	mkstemp,
-	PROTO(1, int, mkstemp, char *, template),
+	PROTO(1, int, mkstemp, char *, temp),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
 )
 
 PRELOAD_LIBC_FUNC(
 	mkostemp,
-	PROTO(2, int, mkostemp, string_t, template, int, flags),
+	PROTO(2, int, mkostemp, char *, temp, int, flags),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
 )
 	
 PRELOAD_LIBC_FUNC(
 	mkstemps,
-	PROTO(2, int, mkstemps, string_t, template, int, suffixlen),
+	PROTO(2, int, mkstemps, char *, temp, int, suffixlen),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
 )
 
 PRELOAD_LIBC_FUNC(
 	mkostemps,
-	PROTO(3, int, mkostemps, string_t, template, int, suffixlen, int, flags),
+	PROTO(3, int, mkostemps, char *, temp, int, suffixlen, int, flags),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_NULL, ACTION_CREATE(_return))
 )
@@ -221,14 +223,14 @@ PRELOAD_LIBC_FUNC(
 
 PRELOAD_LIBC_FUNC(
 	fopen,
-	PROTO(2, filp_t, fopen, const_string_t, path, const_string_t, mode),
+	PROTO(2, FILE *, fopen, const char *, path, const char *, mode),
 	FAILURE(_return == NULL),
 	WRAPPER(ACTION_NULL, ACTION_CREATE(fileno(_return)))
 )
 
 PRELOAD_LIBC_FUNC(
 	fopen64,
-	PROTO(2, filp_t, fopen64, const_string_t, path, const_string_t, mode),
+	PROTO(2, FILE *, fopen64, const char *, path, const char *, mode),
 	FAILURE(_return == NULL),
 	WRAPPER(ACTION_NULL, ACTION_CREATE(fileno(_return)))
 )
@@ -236,14 +238,14 @@ PRELOAD_LIBC_FUNC(
 /* pipe operations */
 PRELOAD_LIBC_FUNC(
 	pipe,
-	PROTO(1, int, pipe, pair_fd_t, pipefd),
+	PROTO(1, int, pipe, int *, pipefd),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_CREATE(pipefd[0]), ACTION_CREATE(pipefd[1])))
 )
 
 PRELOAD_LIBC_FUNC(
 	pipe2,
-	PROTO(2, int, pipe2, pair_fd_t, pipefd, int, flags),
+	PROTO(2, int, pipe2, int *, pipefd, int, flags),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_CREATE(pipefd[0]), ACTION_CREATE(pipefd[1])))
 )
@@ -259,7 +261,7 @@ PRELOAD_LIBC_FUNC(
 
 PRELOAD_LIBC_FUNC(
 	socketpair,
-	PROTO(4, int, socketpair, int, domain, int, type, int, protocol, pair_fd_t, sv),
+	PROTO(4, int, socketpair, int, domain, int, type, int, protocol, int *, sv),
 	FAILURE(_return < 0),
 	WRAPPER(ACTION_NULL, ACTION_COMP(ACTION_CREATE(sv[0]), ACTION_CREATE(sv[1])))
 )
@@ -276,7 +278,7 @@ pid_t (*__fork) () = NULL;
 static void probe_fork_real_func() __attribute__((constructor));
 static void probe_fork_real_func()
 {
-	__fork = dlsym(RTLD_NEXT, "fork");
+	__fork = reinterpret_cast<pid_t (*)()>(dlsym(RTLD_NEXT, "fork"));
 }
 
 pid_t vfork()
@@ -287,8 +289,7 @@ pid_t vfork()
 int loglevel = 0;
 FILE *debugfp;
 
-extern FILE *(*__fopen)(const char *path, const char *mode);
-static void probe_debug(void) __attribute__((constructor(200)));
+static void probe_debug(void) __attribute__((constructor(150)));
 static void probe_debug(void)
 {
 	char *val = getenv("FDTRACE_DEBUG");
@@ -298,7 +299,7 @@ static void probe_debug(void)
 	if (val)
 		loglevel = atoi(val);
 
-	if (debugfile && (fp = __fopen(debugfile, "a")) == NULL) {
+	if (debugfile && (fp = preloader_fopen.call(debugfile, "a")) == NULL) {
 		fprintf(stderr, "Open file %s error, errno = %d %m\n",
 				debugfile, errno);
 		exit(1);

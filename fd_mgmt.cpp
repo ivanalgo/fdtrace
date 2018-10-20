@@ -60,7 +60,7 @@ void mgmt_close_fd(int fd)
 	if (fde->fstat != FSTAT_USED) {
 		fprintf(debugfp, "[pid %d] fd %d is in %d stated\n",
 			getpid(), fd, fde->fstat);
-		abort();
+		//abort();
 	}
 
 	fde->fstat = FSTAT_CLOSED;
@@ -78,7 +78,7 @@ void mgmt_access_fd(int fd)
 	if (fde->fstat != FSTAT_USED) {
 		fprintf(debugfp, "[pid %d] fd %d is in %d state(not used)\n",
 			getpid(), fd, fde->fstat);
-		abort();
+		//abort();
 	}
 	
 	fde->access_time = time(NULL);
@@ -86,7 +86,6 @@ void mgmt_access_fd(int fd)
 	pthread_mutex_unlock(&fde->lock);
 }
 
-int (*__read)(int fd, char *buf, size_t len);
 static void init_all_fds() __attribute__((constructor(200)));
 static void init_all_fds()
 {

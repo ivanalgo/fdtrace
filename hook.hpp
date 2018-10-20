@@ -34,6 +34,7 @@ extern FILE *debugfp;
 #define ARG_TYPES_2(type2, value2, ...)		type2, ARG_TYPES_1(__VA_ARGS__)
 #define ARG_TYPES_3(type3, value3, ...)		type3, ARG_TYPES_2(__VA_ARGS__)
 #define ARG_TYPES_4(type4, value4, ...)		type4, ARG_TYPES_3(__VA_ARGS__)
+#define ARG_TYPES_5(type5, value5, ...)		type5, ARG_TYPES_4(__VA_ARGS__)
 
 #define template_return_arg_types(num, rtype, name, ...)			\
 	rtype, ARG_TYPES_##num(__VA_ARGS__)
@@ -42,6 +43,7 @@ extern FILE *debugfp;
 #define PAAS_ARGS_2(type2, value2, ...)		value2, PAAS_ARGS_1(__VA_ARGS__)
 #define PAAS_ARGS_3(type3, value3, ...)		value3, PAAS_ARGS_2(__VA_ARGS__)
 #define PAAS_ARGS_4(type4, value4, ...)		value4, PAAS_ARGS_3(__VA_ARGS__)
+#define PAAS_ARGS_5(type5, value5, ...)		value5, PAAS_ARGS_4(__VA_ARGS__)
 
 #define template_pass_args(num, rtype, name, ...)				\
 	PAAS_ARGS_##num(__VA_ARGS__)
@@ -50,6 +52,7 @@ extern FILE *debugfp;
 #define arg_type_values_2(type2, value2, ...)	type2 value2, arg_type_values_1(__VA_ARGS__)
 #define arg_type_values_3(type3, value3, ...)	type3 value3, arg_type_values_2(__VA_ARGS__)
 #define arg_type_values_4(type4, value4, ...)	type4 value4, arg_type_values_3(__VA_ARGS__)
+#define arg_type_values_5(type5, value5, ...)	type5 value5, arg_type_values_4(__VA_ARGS__)
 
 #define arg_type_values(num, ...)						\
 	arg_type_values_##num(__VA_ARGS__)
@@ -59,7 +62,7 @@ extern FILE *debugfp;
 
 #define RTYPE(num, rtype, name, ...)	rtype
 
-#define _return reval
+#define _return retval
 #define FAILURE(exp)	exp
 
 #define PRELOAD_LIBC_FUNC(name, proto, _failure, _wrapper)		\
@@ -67,10 +70,10 @@ extern FILE *debugfp;
 										\
 	FUNCTION_DEFINE(proto)							\
 	{									\
-		typeof(RTYPE(proto)) retval;						\
+		__typeof(RTYPE(proto)) retval;						\
 		BEFORE(_wrapper);						\
 		retval = preloader_##name.call(template_pass_args(proto));	\
-		preloader_##name.log(retval, template_pass_args(proto));		\
+		preloader_##name.trace(retval, template_pass_args(proto));		\
 		if (!(_failure)) {						\
 			AFTER(_wrapper);					\
 		}								\

@@ -5,7 +5,8 @@ IS = $(patsubst %.cpp, %.i, $(SOURCES))
 ICS = $(patsubst %.cpp, %.ic, $(SOURCES))
 
 CXX = g++
-CXXFLAGS = -Wall -g -std=c++11
+CXXFLAGS = -Wall -g -std=c++11 -fPIC -shared
+LDFLAGS = -ldl -fPIC -shared
 
 all: fdcheck.so 
 
@@ -19,7 +20,7 @@ all: fdcheck.so
 	indent $< -o $@
 
 fdcheck.so: $(OBJS)
-	$(CXX) -o $@ $<
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
 clean:
 	rm -rf $(OBJS) $(IS) $(ICS) fdcheck.so
